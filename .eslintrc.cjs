@@ -31,7 +31,7 @@ module.exports = {
         'object-curly-newline': ['error', { 'consistent': true }],
         'no-unused-vars': ['warn'],
         'eqeqeq': ['error', 'always'],
-        'no-console': ['warn'],
+        'no-console': ['off'],
         'prefer-arrow-callback': ['error'],
         'array-bracket-spacing': ['error', 'never'],
         'prefer-template': ['error'], 
