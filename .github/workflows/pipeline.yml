@@ -3,9 +3,9 @@ name: Deployment pipeline
 on:
   push:
     branches:
-      - [ main, master ]
+      - master
   pull_request:
-    branches: [ main, master ]
+    branches: [ master ]
     types: [opened, synchronize]
     
 jobs:
