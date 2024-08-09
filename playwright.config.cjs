@@ -69,7 +69,7 @@ module.exports = defineConfig({
   ],
 
   webServer: {
-    command: 'npm run dev',
+    command: 'npm run server',
     url: 'http:localhost:3001',
     reuseExistingServer: !process.env.CI,
   },
