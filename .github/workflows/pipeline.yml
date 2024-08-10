@@ -26,21 +26,21 @@ jobs:
         run: npm run build
 
 
-tag_release:
-  needs: simple_deployment_pipeline
-  runs-on: ubuntu-20.04
-  if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}    
-  permissions:
-    contents: write
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: '0'
-    - name: Bump version and push tag
-      uses: anothrNick/github-tag-action@777684df761b882a3f4f70db16ac70d8cc78d0ea
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  tag_release:
+    needs: simple_deployment_pipeline
+    runs-on: ubuntu-20.04
+    if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}    
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: '0'
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@777684df761b882a3f4f70db16ac70d8cc78d0ea
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy_to_render:
     needs: simple_deployment_pipeline
