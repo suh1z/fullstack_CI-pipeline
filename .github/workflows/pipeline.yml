@@ -25,20 +25,6 @@ jobs:
       - name: build
         run: npm run build
 
-add_emoji:
-  needs: simple_deployment_pipeline
-  jobs:
-    add-emoji:
-        runs-on: ubuntu-20.04
-      steps:
-        - name: Checkout 🛎️
-          uses: actions/checkout@v2
-
-        - name: Add emoji 🥰
-          uses: tiena2cva/action-emoji@v1
-          with:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 tag_release:
   needs: simple_deployment_pipeline
   runs-on: ubuntu-20.04
