@@ -10,8 +10,6 @@ const { defineConfig, devices } = require('@playwright/test')
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
-const port = process.env.CI ? 3001 : 3002
-
 module.exports = defineConfig({
   testDir: './e2e',
   /* Run tests in files in parallel */
@@ -26,7 +24,7 @@ module.exports = defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    baseURL: 'http://localhost:3002',
+    baseURL: 'http://localhost:3001',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -72,7 +70,7 @@ module.exports = defineConfig({
 
   webServer: {
     command: 'npm run server',
-    port: port,
+    url: 'http://localhost:3001',
     reuseExistingServer: !process.env.CI,
   },
 })
