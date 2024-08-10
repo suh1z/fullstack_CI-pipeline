@@ -24,7 +24,7 @@ module.exports = defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    baseURL: 'http://localhost:3001',
+    baseURL: 'http://localhost:3002',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -70,7 +70,7 @@ module.exports = defineConfig({
 
   webServer: {
     command: 'npm run server',
-    port: 3001,
+    url: 'http://localhost:3002',
     reuseExistingServer: !process.env.CI,
   },
 })
