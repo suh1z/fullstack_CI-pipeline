@@ -15,5 +15,5 @@ jobs:
         with:
           url: ${{ secrets.URL_HEALTH }}
           responseCode: 200
-          timeout: 86400000
+          timeout: 2000
           interval: 500
