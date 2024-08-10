@@ -50,22 +50,32 @@ jobs:
     - name: Trigger deployment
       run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
 
-  slack_message:
+  discord_curl_message:
     needs: simple_deployment_pipeline
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout
-        if: ${{ needs.simple_deployment_pipeline.result == 'success' }}
-        uses: actions/checkout@v2
-      - name: Notifying via Slack
-        uses: jakobo/slack-rich-notify@v2.0.1
-        with:
-          token: ${{secrets.SLACK_BOT_KEY}}
-          secret: ${{secrets.SLACK_SIGNING_SECRET}}
-          channel: ${{secrets.SLACK_CHANNEL}}
-          evals: |
-            changelog = git log --reverse --color=never --pretty='tformat:%xe2%x80%xa2 `%h` %s (%ae)' {{context.payload.push.before}}...{{context.payload.push.head}}
-          message: |
-            *Something Got Pushed!*
-            `{{context.payload.push.before}}...{{context.payload.push.head}}`
-            {{evals.changelog}}
+    - name: Checkout Code
+      if: ${{ needs.simple_deployment_pipeline.result == 'success' }}
+      uses: actions/checkout@v4
+    - name: Send Notification to Discord
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        MESSAGE: 'New push on repo!'
+      run: |
+        curl -H "Content-Type: application/json" \
+             -X POST \
+             -d "{\"content\": \"$MESSAGE\"}" \
+             $DISCORD_WEBHOOK_URL
+
+    - name: Checkout Code
+      if: ${{ needs.simple_deployment_pipeline.result == 'failure' }}
+      uses: actions/checkout@v4
+    - name: Send Notification to Discord
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        MESSAGE: 'Push failed :(!'
+      run: |
+        curl -H "Content-Type: application/json" \
+             -X POST \
+             -d "{\"content\": \"$MESSAGE\"}" \
+             $DISCORD_WEBHOOK_URL
