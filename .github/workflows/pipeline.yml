@@ -53,8 +53,9 @@ jobs:
   discord_curl_message:
     needs: simple_deployment_pipeline
     runs-on: ubuntu-20.04
+    if: ${{ always() }}
     steps:
-    - name: Checkout Code
+    - name: message on success
       if: ${{ needs.simple_deployment_pipeline.result == 'success' }}
       uses: actions/checkout@v4
     - name: Send Notification to Discord
@@ -67,7 +68,7 @@ jobs:
              -d "{\"content\": \"$MESSAGE\"}" \
              $DISCORD_WEBHOOK_URL
 
-    - name: Checkout Code
+    - name: message on failure
       if: ${{ needs.simple_deployment_pipeline.result == 'failure' }}
       uses: actions/checkout@v4
     - name: Send Notification to Discord
