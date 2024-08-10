@@ -10,7 +10,7 @@ const { defineConfig, devices } = require('@playwright/test')
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
-const port = process.env.CI ? 3002: 3001
+const port = process.env.CI ? 3001 : 3002
 
 module.exports = defineConfig({
   testDir: './e2e',
