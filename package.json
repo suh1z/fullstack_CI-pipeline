@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "server": "nodemon app.js",
-    "build": "node app.js",
+    "start-prod": "node app.js",
+    "build": "vite build",
     "lint": "eslint **/*.{js,jsx} --fix",
     "preview": "vite preview",
     "test": "vitest run",
