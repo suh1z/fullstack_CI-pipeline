@@ -49,3 +49,39 @@ jobs:
     steps:
     - name: Trigger deployment
       run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+
+  discord_curl_message_success:
+    needs: simple_deployment_pipeline
+    runs-on: ubuntu-20.04
+    if: ${{ needs.simple_deployment_pipeline.result == 'success' }}
+
+    steps:
+    - name: message on success
+      uses: actions/checkout@v4
+    - name: Send Notification to Discord
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        MESSAGE: 'New push on repo!'
+      run: |
+        curl -H "Content-Type: application/json" \
+             -X POST \
+             -d "{\"content\": \"$MESSAGE\"}" \
+             $DISCORD_WEBHOOK_URL
+             
+  discord_curl_message_failure:
+    needs: simple_deployment_pipeline
+    runs-on: ubuntu-20.04
+    if: ${{ needs.simple_deployment_pipeline.result == 'failure' }}
+
+    steps:
+    - name: message on failure
+      uses: actions/checkout@v4
+    - name: Send Notification to Discord
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        MESSAGE: 'Push failed :(!'
+      run: |
+        curl -H "Content-Type: application/json" \
+             -X POST \
+             -d "{\"content\": \"$MESSAGE\"}" \
+             $DISCORD_WEBHOOK_URL
